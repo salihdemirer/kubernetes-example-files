@@ -1,0 +1,27 @@
+# Bu örnek yaml dosyası labellarında color keyine sahip olan node üzerinde çalıştırmayı istediğimiz deployment bilgilerini barındırır.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: operator-exists
+  name: operator-exists
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: operator-exists
+  template:
+    metadata:
+      labels:
+        app: operator-exists
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: color
+                  operator: Exists

@@ -1,0 +1,18 @@
+# Bu yaml dosyası color=blue:NoSchedule taintine sahip node üzerinde çalışmasını istediğimiz pod dosyasının değerlerini barındırır.
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: resource-limits-requests
+  name: resource-limits-requests
+spec:
+  containers:
+  - image: nginx
+    name: resource-limits-requests
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 300m
+      limits:
+        memory: "2Gi"
+        cpu: 600m
