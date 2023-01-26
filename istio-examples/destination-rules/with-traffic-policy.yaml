@@ -1,0 +1,21 @@
+# Bu tanım dosyasında traffic policy kullanarak destination rule tanımını yapıyoruz.
+# Belirli subsetler için belirli algoritmalar kullanmak istiyorsak # 2 ile belirttiğim kısımdaki tanımları yapabiliriz.
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-destination
+spec:
+  host: reviews # Kullanılacak olan virtual service ismi. 
+  trafficPolicy:
+    loadBalancer:
+      simple: PASSTHROUGH # ROUND_ROBIN, RANDOM, LEAST_CONN
+  subsets:
+  - name: v1
+    labels:
+      version: v1 # Burada belirtilen labellar gerekli podlar üzerindeki label ile eşleşmeli.
+  - name: v2
+    labels:
+      version: v2 # Burada belirtilen labellar gerekli podlar üzerindeki label ile eşleşmeli.
+    trafficPolicy: # 2
+      loadBalancer:
+        simple: RANDOM # ROUND_ROBIN, RANDOM, LEAST_CONN

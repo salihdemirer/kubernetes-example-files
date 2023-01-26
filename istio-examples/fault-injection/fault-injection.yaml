@@ -1,0 +1,22 @@
+# Fault injection oluşturulmadan önce destination rule yazılmış olmalı.
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service
+  http:
+  - fault:
+      abort:
+        percentage:
+          value: 0.1
+        httpStatus: 400
+      delay:
+        percentage:
+          value: 70.0 
+        fixedDelay: 5s  # Gelen trafiğin %70lik kısmı 5 saniyelik gecikme ile karşılaşır.
+    route:
+      - destination:
+          host: my-service
+          subset: v1
